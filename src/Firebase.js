@@ -1,17 +1,18 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAUlXr8Dzp0rp7s8q3tOrhnoxHprl-y84w",
-  authDomain: "blog-app-7012c.firebaseapp.com",
-  projectId: "blog-app-7012c",
-  storageBucket: "blog-app-7012c.appspot.com",
-  messagingSenderId: "1096673332629",
-  appId: "1:1096673332629:web:b7f99a60a7de9ba2cdfa9c"
+  apiKey: "AIzaSyBtHnH9tOlLH7wYUvnPuFjwaVqEEM-AoFs",
+  authDomain: "microblog-df44c.firebaseapp.com",
+  projectId: "microblog-df44c",
+  storageBucket: "microblog-df44c.appspot.com",
+  messagingSenderId: "74272419",
+  appId: "1:74272419:web:8150013a23138a500af916"
 };
 
 // Initialize Firebase

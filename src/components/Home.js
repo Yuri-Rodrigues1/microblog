@@ -56,7 +56,6 @@ const DeleteButton = styled.button`
 export default function Home({ isAuth }) {
   const [postsList, setPostList] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
-  const [editedTitle, setEditedTitle] = useState('');
   const [editedPost, setEditedPost] = useState('');
   const postsCollection = collection(db, 'posts');
 
@@ -77,7 +76,6 @@ export default function Home({ isAuth }) {
   const onEdit = (id) => {
     setEditingPost(id);
     const postToEdit = postsList.find((post) => post.id === id);
-    setEditedTitle(postToEdit.titulo);
     setEditedPost(postToEdit.post);
   };
 
@@ -85,60 +83,55 @@ export default function Home({ isAuth }) {
     setEditingPost(null);
     const postDoc = doc(db, 'posts', id);
     await updateDoc(postDoc, {
-      titulo: editedTitle,
+
       post: editedPost,
     });
     const updatedPosts = postsList.map((post) =>
-      post.id === id ? { ...post, titulo: editedTitle, post: editedPost } : post
+      post.id === id ? { ...post, post: editedPost } : post
     );
     setPostList(updatedPosts);
-    setEditedTitle('');
     setEditedPost('');
   };
 
   return (
     <Container>
-      {postsList.map((post) => {
-        const formattedDate = post.date
-          ? new Date(post.date.seconds * 1000).toLocaleString()
-          : 'Data não disponível';
-        const isBeingEdited = editingPost === post.id;
+          {postsList.map((post) => {
+      const formattedDate = post.date
+        ? new Date(post.date.seconds * 1000).toLocaleString()
+        : 'Data não disponível';
+      const isBeingEdited = editingPost === post.id;
 
-        return (
-          <PostContainer key={post.id}>
-            {isBeingEdited ? (
-              <>
-                <EditableField
-                  type="text"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                />
-                <EditableTextArea
-                  value={editedPost}
-                  onChange={(e) => setEditedPost(e.target.value)}
-                />
-                <SaveButton onClick={() => saveEdit(post.id)}>Salvar Edição</SaveButton>
-              </>
-            ) : (
-              <>
-                <h2>{post.titulo}</h2>
-                <p>{post.post}</p>
-                
-              </>
-            )}
+      return (
+        <PostContainer key={post.id}>
+          {isBeingEdited ? (
+            <>
+              <EditableTextArea
+                value={editedPost}
+                onChange={(e) => setEditedPost(e.target.value)}
+              />
+              <SaveButton onClick={() => saveEdit(post?.id)}>Salvar Edição</SaveButton>
+            </>
+          ) : (
+            <>
+              
+              <p>{post.post}</p>
+          
 
-            <h3>@{post.author.name}</h3>
-            <p>{formattedDate}</p>
+            </>
+          )}
 
-            {isAuth && post.author.id === auth.currentUser.uid && (
-              <>
-                <DeleteButton onClick={() => deletePost(post.id)}>Deletar</DeleteButton>
-                <EditButton onClick={() => onEdit(post.id)}>Editar</EditButton>
-              </>
-            )}
-          </PostContainer>
-        );
-      })}
+          <h3>@{post.author?.name}</h3>
+          <p>{formattedDate}</p>
+
+          {isAuth && post.author?.id === auth.currentUser?.uid && (
+            <>
+              <DeleteButton onClick={() => deletePost(post?.id)}>Deletar</DeleteButton>
+              <EditButton onClick={() => onEdit(post?.id)}>Editar</EditButton>
+            </>
+          )}
+        </PostContainer>
+      );
+    })}
     </Container>
   );
 }
